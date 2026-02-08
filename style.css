@@ -15,6 +15,16 @@ body {
   background: radial-gradient(circle at top, #151323, #050507 55%);
 }
 
+.app::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 93, 143, 0.15), transparent 45%),
+    radial-gradient(circle at 80% 10%, rgba(128, 92, 255, 0.2), transparent 45%);
+  pointer-events: none;
+  z-index: -1;
+}
+
 .app {
   min-height: 100vh;
   display: flex;
@@ -23,7 +33,7 @@ body {
 
 .top-bar {
   display: grid;
-  grid-template-columns: auto auto 1fr auto;
+  grid-template-columns: auto auto 1fr auto auto;
   align-items: center;
   gap: 1.5rem;
   padding: 1.25rem 3rem 1rem;
@@ -39,6 +49,9 @@ body {
   font-weight: 700;
   font-size: 1.35rem;
   letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .location {
@@ -79,6 +92,13 @@ body {
   font-size: 0.9rem;
 }
 
+.pill.glow {
+  background: linear-gradient(120deg, rgba(255, 93, 143, 0.95), rgba(255, 180, 72, 0.95));
+  border: none;
+  color: #1a0c0e;
+  font-weight: 600;
+}
+
 .pill.active {
   background: #ffffff;
   color: #111;
@@ -96,6 +116,17 @@ body {
   border-radius: 14px;
   padding: 0.55rem 1rem;
   color: inherit;
+}
+
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.status {
+  font-size: 0.9rem;
+  opacity: 0.85;
 }
 
 .feed {
@@ -194,6 +225,11 @@ body {
   cursor: pointer;
 }
 
+.cta.full {
+  width: 100%;
+  text-align: center;
+}
+
 .side-actions {
   width: 110px;
   display: flex;
@@ -257,6 +293,70 @@ body {
   color: #ffb1cc;
 }
 
+.modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(4, 4, 10, 0.7);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  padding: 1.5rem;
+}
+
+.modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  width: min(420px, 90vw);
+  background: #12121b;
+  border-radius: 24px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-card h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+#signupForm {
+  display: grid;
+  gap: 1rem;
+}
+
+#signupForm label {
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+#signupForm input {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.65rem 0.85rem;
+  color: inherit;
+}
+
+.fineprint {
+  margin: 0;
+  font-size: 0.75rem;
+  opacity: 0.7;
+  text-align: center;
+}
+
 @media (max-width: 900px) {
   .top-bar {
     grid-template-columns: 1fr;
@@ -270,6 +370,10 @@ body {
 
   .search {
     justify-content: flex-start;
+  }
+
+  .auth {
+    justify-content: space-between;
   }
 
   .reel {
