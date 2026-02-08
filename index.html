@@ -22,6 +22,10 @@
         <div class="search">
           <input type="text" placeholder="Search restaurants or dishes" />
         </div>
+        <div class="auth">
+          <span class="status" id="authStatus">Guest</span>
+          <button class="pill glow" id="openSignup">Sign up</button>
+        </div>
       </header>
 
       <main class="feed">
@@ -136,5 +140,85 @@
         <button>Profile</button>
       </nav>
     </div>
+
+    <div class="modal" id="signupModal" aria-hidden="true">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2>Create your FoodScroll account</h2>
+          <button class="ghost" id="closeSignup">Close</button>
+        </div>
+        <form id="signupForm">
+          <label>
+            Display name
+            <input type="text" name="name" placeholder="e.g. Alex" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" placeholder="alex@email.com" required />
+          </label>
+          <label>
+            Zip code
+            <input type="text" name="zip" placeholder="94107" required />
+          </label>
+          <button class="cta full" type="submit">Create account</button>
+          <p class="fineprint">
+            We store your account in this browser so you can jump back in later.
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const modal = document.getElementById("signupModal");
+      const openSignup = document.getElementById("openSignup");
+      const closeSignup = document.getElementById("closeSignup");
+      const form = document.getElementById("signupForm");
+      const status = document.getElementById("authStatus");
+
+      const accountsKey = "foodscroll_accounts";
+      const activeKey = "foodscroll_active";
+
+      const loadAccounts = () => JSON.parse(localStorage.getItem(accountsKey) || "[]");
+      const saveAccounts = (accounts) =>
+        localStorage.setItem(accountsKey, JSON.stringify(accounts));
+
+      const setActiveAccount = (account) => {
+        localStorage.setItem(activeKey, JSON.stringify(account));
+        status.textContent = account.name;
+      };
+
+      const existing = localStorage.getItem(activeKey);
+      if (existing) {
+        setActiveAccount(JSON.parse(existing));
+      }
+
+      openSignup.addEventListener("click", () => {
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+      });
+
+      closeSignup.addEventListener("click", () => {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const data = new FormData(form);
+        const account = {
+          name: data.get("name"),
+          email: data.get("email"),
+          zip: data.get("zip"),
+          createdAt: new Date().toISOString(),
+        };
+        const accounts = loadAccounts();
+        accounts.push(account);
+        saveAccounts(accounts);
+        setActiveAccount(account);
+        form.reset();
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+      });
+    </script>
   </body>
 </html>
