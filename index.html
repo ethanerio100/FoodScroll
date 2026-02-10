@@ -1,224 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FoodScroll • Discover Real Restaurant Reels</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-  </head>
-  <body>
-    <div class="app">
-      <header class="top-bar">
-        <div class="logo">FoodScroll</div>
-        <div class="location">
-          <span class="label">Near</span>
-          <strong>94107</strong>
-          <button class="ghost">Change</button>
-        </div>
-        <div class="actions">
-          <button class="pill">Following</button>
-          <button class="pill active">For You</button>
-        </div>
-        <div class="search">
-          <input type="text" placeholder="Search restaurants or dishes" />
-        </div>
-        <div class="auth">
-          <span class="status" id="authStatus">Guest</span>
-          <button class="pill glow" id="openSignup">Sign up</button>
-        </div>
-      </header>
-
-      <main class="feed">
-        <section class="reel" aria-label="Restaurant reel">
-          <div class="media">
-            <div class="media-overlay">
-              <span class="live">Live from the kitchen</span>
-              <h1>Golden Wok • Sizzling Orange Chicken</h1>
-              <p>Steam, crackle, and a drizzle of honey glaze right off the wok.</p>
-              <div class="meta">
-                <span>4.8 ★</span>
-                <span>12 min walk</span>
-                <span>$$ • Chinese</span>
-              </div>
-              <button class="cta">Book a table</button>
-            </div>
-          </div>
-          <aside class="side-actions">
-            <button>
-              <span>❤</span>
-              <small>2.1k</small>
-            </button>
-            <button>
-              <span>💬</span>
-              <small>188</small>
-            </button>
-            <button>
-              <span>🔖</span>
-              <small>Save</small>
-            </button>
-            <button>
-              <span>📍</span>
-              <small>Map</small>
-            </button>
-          </aside>
-        </section>
-
-        <section class="reel alt" aria-label="Restaurant reel">
-          <div class="media">
-            <div class="media-overlay">
-              <span class="live">Chef POV</span>
-              <h1>Sunset Cantina • Street Tacos Trio</h1>
-              <p>Charred tortillas, citrus crema, and a squeeze of lime.</p>
-              <div class="meta">
-                <span>4.6 ★</span>
-                <span>0.8 mi</span>
-                <span>$ • Mexican</span>
-              </div>
-              <button class="cta">Order pickup</button>
-            </div>
-          </div>
-          <aside class="side-actions">
-            <button>
-              <span>❤</span>
-              <small>987</small>
-            </button>
-            <button>
-              <span>💬</span>
-              <small>92</small>
-            </button>
-            <button>
-              <span>🔖</span>
-              <small>Save</small>
-            </button>
-            <button>
-              <span>📍</span>
-              <small>Map</small>
-            </button>
-          </aside>
-        </section>
-
-        <section class="reel luxe" aria-label="Restaurant reel">
-          <div class="media">
-            <div class="media-overlay">
-              <span class="live">Omakase counter</span>
-              <h1>Hoshi • Toro &amp; Uni Flight</h1>
-              <p>Hand-cut toro with citrus soy and torched uni.</p>
-              <div class="meta">
-                <span>4.9 ★</span>
-                <span>3.2 mi</span>
-                <span>$$$ • Sushi</span>
-              </div>
-              <button class="cta">Request reservation</button>
-            </div>
-          </div>
-          <aside class="side-actions">
-            <button>
-              <span>❤</span>
-              <small>3.5k</small>
-            </button>
-            <button>
-              <span>💬</span>
-              <small>421</small>
-            </button>
-            <button>
-              <span>🔖</span>
-              <small>Save</small>
-            </button>
-            <button>
-              <span>📍</span>
-              <small>Map</small>
-            </button>
-          </aside>
-        </section>
-      </main>
-
-      <nav class="bottom-nav">
-        <button class="active">Home</button>
-        <button>Nearby</button>
-        <button class="primary">+</button>
-        <button>Inbox</button>
-        <button>Profile</button>
-      </nav>
-    </div>
-
-    <div class="modal" id="signupModal" aria-hidden="true">
-      <div class="modal-card">
-        <div class="modal-header">
-          <h2>Create your FoodScroll account</h2>
-          <button class="ghost" id="closeSignup">Close</button>
-        </div>
-        <form id="signupForm">
-          <label>
-            Display name
-            <input type="text" name="name" placeholder="e.g. Alex" required />
-          </label>
-          <label>
-            Email
-            <input type="email" name="email" placeholder="alex@email.com" required />
-          </label>
-          <label>
-            Zip code
-            <input type="text" name="zip" placeholder="94107" required />
-          </label>
-          <button class="cta full" type="submit">Create account</button>
-          <p class="fineprint">
-            We store your account in this browser so you can jump back in later.
-          </p>
-        </form>
-      </div>
-    </div>
-
-    <script>
-      const modal = document.getElementById("signupModal");
-      const openSignup = document.getElementById("openSignup");
-      const closeSignup = document.getElementById("closeSignup");
-      const form = document.getElementById("signupForm");
-      const status = document.getElementById("authStatus");
-
-      const accountsKey = "foodscroll_accounts";
-      const activeKey = "foodscroll_active";
-
-      const loadAccounts = () => JSON.parse(localStorage.getItem(accountsKey) || "[]");
-      const saveAccounts = (accounts) =>
-        localStorage.setItem(accountsKey, JSON.stringify(accounts));
-
-      const setActiveAccount = (account) => {
-        localStorage.setItem(activeKey, JSON.stringify(account));
-        status.textContent = account.name;
-      };
-
-      const existing = localStorage.getItem(activeKey);
-      if (existing) {
-        setActiveAccount(JSON.parse(existing));
-      }
-
-      openSignup.addEventListener("click", () => {
-        modal.classList.add("open");
-        modal.setAttribute("aria-hidden", "false");
-      });
-
-      closeSignup.addEventListener("click", () => {
-        modal.classList.remove("open");
-        modal.setAttribute("aria-hidden", "true");
-      });
-
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const data = new FormData(form);
-        const account = {
-          name: data.get("name"),
-          email: data.get("email"),
-          zip: data.get("zip"),
-          createdAt: new Date().toISOString(),
-        };
-        const accounts = loadAccounts();
-        accounts.push(account);
-        saveAccounts(accounts);
-        setActiveAccount(account);
-        form.reset();
-        modal.classList.remove("open");
-        modal.setAttribute("aria-hidden", "true");
-      });
-    </script>
-  </body>
-</html>
+ <!DOCTYPE html>
+ <html lang="en">
+   <head>
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>FoodScroll • Discover Real Restaurant Reels</title>
+-    <link rel="stylesheet" type="text/css" href="style.css">
++    <link rel="stylesheet" type="text/css" href="style.css" />
+   </head>
+   <body>
+     <div class="app">
+       <header class="top-bar">
+-        <div class="logo">FoodScroll</div>
++        <div class="logo">
++          <span class="logo-mark">FS</span>
++          <span class="logo-text">FoodScroll</span>
++        </div>
+         <div class="location">
+           <span class="label">Near</span>
+           <strong>94107</strong>
+           <button class="ghost">Change</button>
+         </div>
+-        <div class="actions">
++        <div class="actions" role="tablist" aria-label="Feed filter">
+           <button class="pill">Following</button>
+           <button class="pill active">For You</button>
+         </div>
+         <div class="search">
+           <input type="text" placeholder="Search restaurants or dishes" />
+         </div>
+         <div class="auth">
+           <span class="status" id="authStatus">Guest</span>
+           <button class="pill glow" id="openSignup">Sign up</button>
+         </div>
+       </header>
+ 
+       <main class="feed">
+         <section class="reel" aria-label="Restaurant reel">
+           <div class="media">
+             <div class="media-overlay">
+               <span class="live">Live from the kitchen</span>
+               <h1>Golden Wok • Sizzling Orange Chicken</h1>
+               <p>Steam, crackle, and a drizzle of honey glaze right off the wok.</p>
+               <div class="meta">
+                 <span>4.8 ★</span>
+                 <span>12 min walk</span>
+                 <span>$$ • Chinese</span>
+               </div>
+               <button class="cta">Book a table</button>
+@@ -156,53 +159,61 @@
+             Email
+             <input type="email" name="email" placeholder="alex@email.com" required />
+           </label>
+           <label>
+             Zip code
+             <input type="text" name="zip" placeholder="94107" required />
+           </label>
+           <button class="cta full" type="submit">Create account</button>
+           <p class="fineprint">
+             We store your account in this browser so you can jump back in later.
+           </p>
+         </form>
+       </div>
+     </div>
+ 
+     <script>
+       const modal = document.getElementById("signupModal");
+       const openSignup = document.getElementById("openSignup");
+       const closeSignup = document.getElementById("closeSignup");
+       const form = document.getElementById("signupForm");
+       const status = document.getElementById("authStatus");
+ 
+       const accountsKey = "foodscroll_accounts";
+       const activeKey = "foodscroll_active";
+ 
+-      const loadAccounts = () => JSON.parse(localStorage.getItem(accountsKey) || "[]");
+-      const saveAccounts = (accounts) =>
++      const loadAccounts = () => {
++        try {
++          return JSON.parse(localStorage.getItem(accountsKey) || "[]");
++        } catch {
++          return [];
++        }
++      };
++
++      const saveAccounts = (accounts) => {
+         localStorage.setItem(accountsKey, JSON.stringify(accounts));
++      };
+ 
+       const setActiveAccount = (account) => {
+         localStorage.setItem(activeKey, JSON.stringify(account));
+         status.textContent = account.name;
+       };
+ 
+       const existing = localStorage.getItem(activeKey);
+       if (existing) {
+         setActiveAccount(JSON.parse(existing));
+       }
+ 
+       openSignup.addEventListener("click", () => {
+         modal.classList.add("open");
+         modal.setAttribute("aria-hidden", "false");
+       });
+ 
+       closeSignup.addEventListener("click", () => {
+         modal.classList.remove("open");
+         modal.setAttribute("aria-hidden", "true");
+       });
+ 
+       form.addEventListener("submit", (event) => {
+         event.preventDefault();
+         const data = new FormData(form);
+         const account = {
