@@ -1,80 +1,263 @@
- <!DOCTYPE html>
- <html lang="en">
-   <head>
-     <meta charset="UTF-8" />
-     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-     <title>FoodScroll • Discover Real Restaurant Reels</title>
--    <link rel="stylesheet" type="text/css" href="style.css">
+- <!DOCTYPE html>
+- <html lang="en">
+-   <head>
+-     <meta charset="UTF-8" />
+-     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+-     <title>FoodScroll • Discover Real Restaurant Reels</title>
+--    <link rel="stylesheet" type="text/css" href="style.css">
+-+    <link rel="stylesheet" type="text/css" href="style.css" />
+-   </head>
+-   <body>
+-     <div class="app">
+-       <header class="top-bar">
+--        <div class="logo">FoodScroll</div>
+-+        <div class="logo">
+-+          <span class="logo-mark">FS</span>
+-+          <span class="logo-text">FoodScroll</span>
+-+        </div>
+-         <div class="location">
+-           <span class="label">Near</span>
+-           <strong>94107</strong>
+-           <button class="ghost">Change</button>
+-         </div>
+--        <div class="actions">
+-+        <div class="actions" role="tablist" aria-label="Feed filter">
+-           <button class="pill">Following</button>
+-           <button class="pill active">For You</button>
+-         </div>
+-         <div class="search">
+-           <input type="text" placeholder="Search restaurants or dishes" />
+-         </div>
+-         <div class="auth">
+-           <span class="status" id="authStatus">Guest</span>
+-           <button class="pill glow" id="openSignup">Sign up</button>
+-         </div>
+-       </header>
+- 
+-       <main class="feed">
+-         <section class="reel" aria-label="Restaurant reel">
+-           <div class="media">
+-             <div class="media-overlay">
+-               <span class="live">Live from the kitchen</span>
+-               <h1>Golden Wok • Sizzling Orange Chicken</h1>
+-               <p>Steam, crackle, and a drizzle of honey glaze right off the wok.</p>
+-               <div class="meta">
+-                 <span>4.8 ★</span>
+-                 <span>12 min walk</span>
+-                 <span>$$ • Chinese</span>
+-               </div>
+-               <button class="cta">Book a table</button>
+-@@ -156,53 +159,61 @@
+-             Email
+-             <input type="email" name="email" placeholder="alex@email.com" required />
+-           </label>
+-           <label>
+-             Zip code
+-             <input type="text" name="zip" placeholder="94107" required />
+-           </label>
+-           <button class="cta full" type="submit">Create account</button>
+-           <p class="fineprint">
+-             We store your account in this browser so you can jump back in later.
+-           </p>
+-         </form>
+-       </div>
+-     </div>
+- 
+-     <script>
+-       const modal = document.getElementById("signupModal");
+-       const openSignup = document.getElementById("openSignup");
+-       const closeSignup = document.getElementById("closeSignup");
+-       const form = document.getElementById("signupForm");
+-       const status = document.getElementById("authStatus");
+- 
+-       const accountsKey = "foodscroll_accounts";
+-       const activeKey = "foodscroll_active";
+- 
+--      const loadAccounts = () => JSON.parse(localStorage.getItem(accountsKey) || "[]");
+--      const saveAccounts = (accounts) =>
+-+      const loadAccounts = () => {
+-+        try {
+-+          return JSON.parse(localStorage.getItem(accountsKey) || "[]");
+-+        } catch {
+-+          return [];
+-+        }
+-+      };
+-+
+-+      const saveAccounts = (accounts) => {
+-         localStorage.setItem(accountsKey, JSON.stringify(accounts));
+-+      };
+- 
+-       const setActiveAccount = (account) => {
+-         localStorage.setItem(activeKey, JSON.stringify(account));
+-         status.textContent = account.name;
+-       };
+- 
+-       const existing = localStorage.getItem(activeKey);
+-       if (existing) {
+-         setActiveAccount(JSON.parse(existing));
+-       }
+- 
+-       openSignup.addEventListener("click", () => {
+-         modal.classList.add("open");
+-         modal.setAttribute("aria-hidden", "false");
+-       });
+- 
+-       closeSignup.addEventListener("click", () => {
+-         modal.classList.remove("open");
+-         modal.setAttribute("aria-hidden", "true");
+-       });
+- 
+-       form.addEventListener("submit", (event) => {
+-         event.preventDefault();
+-         const data = new FormData(form);
+-         const account = {
++<!DOCTYPE html>
++<html lang="en">
++  <head>
++    <meta charset="UTF-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
++    <title>FoodScroll • Discover Real Restaurant Reels</title>
 +    <link rel="stylesheet" type="text/css" href="style.css" />
-   </head>
-   <body>
-     <div class="app">
-       <header class="top-bar">
--        <div class="logo">FoodScroll</div>
++  </head>
++  <body>
++    <div class="app">
++      <header class="top-bar">
 +        <div class="logo">
 +          <span class="logo-mark">FS</span>
 +          <span class="logo-text">FoodScroll</span>
 +        </div>
-         <div class="location">
-           <span class="label">Near</span>
-           <strong>94107</strong>
-           <button class="ghost">Change</button>
-         </div>
--        <div class="actions">
++
++        <div class="location">
++          <span class="label">Near</span>
++          <strong>94107</strong>
++          <button class="ghost" type="button">Change</button>
++        </div>
++
 +        <div class="actions" role="tablist" aria-label="Feed filter">
-           <button class="pill">Following</button>
-           <button class="pill active">For You</button>
-         </div>
-         <div class="search">
-           <input type="text" placeholder="Search restaurants or dishes" />
-         </div>
-         <div class="auth">
-           <span class="status" id="authStatus">Guest</span>
-           <button class="pill glow" id="openSignup">Sign up</button>
-         </div>
-       </header>
- 
-       <main class="feed">
-         <section class="reel" aria-label="Restaurant reel">
-           <div class="media">
-             <div class="media-overlay">
-               <span class="live">Live from the kitchen</span>
-               <h1>Golden Wok • Sizzling Orange Chicken</h1>
-               <p>Steam, crackle, and a drizzle of honey glaze right off the wok.</p>
-               <div class="meta">
-                 <span>4.8 ★</span>
-                 <span>12 min walk</span>
-                 <span>$$ • Chinese</span>
-               </div>
-               <button class="cta">Book a table</button>
-@@ -156,53 +159,61 @@
-             Email
-             <input type="email" name="email" placeholder="alex@email.com" required />
-           </label>
-           <label>
-             Zip code
-             <input type="text" name="zip" placeholder="94107" required />
-           </label>
-           <button class="cta full" type="submit">Create account</button>
-           <p class="fineprint">
-             We store your account in this browser so you can jump back in later.
-           </p>
-         </form>
-       </div>
-     </div>
- 
-     <script>
-       const modal = document.getElementById("signupModal");
-       const openSignup = document.getElementById("openSignup");
-       const closeSignup = document.getElementById("closeSignup");
-       const form = document.getElementById("signupForm");
-       const status = document.getElementById("authStatus");
- 
-       const accountsKey = "foodscroll_accounts";
-       const activeKey = "foodscroll_active";
- 
--      const loadAccounts = () => JSON.parse(localStorage.getItem(accountsKey) || "[]");
--      const saveAccounts = (accounts) =>
++          <button class="pill" type="button">Following</button>
++          <button class="pill active" type="button">For You</button>
++        </div>
++
++        <label class="search" aria-label="Search restaurants or dishes">
++          <input type="text" placeholder="Search restaurants or dishes" />
++        </label>
++
++        <div class="auth">
++          <span class="status" id="authStatus">Guest</span>
++          <button class="pill glow" id="openSignup" type="button">Sign up</button>
++        </div>
++      </header>
++
++      <main class="feed">
++        <section class="reel" aria-label="Restaurant reel: Golden Wok">
++          <div class="media">
++            <div class="media-overlay">
++              <span class="live">Live from the kitchen</span>
++              <h1>Golden Wok • Sizzling Orange Chicken</h1>
++              <p>Steam, crackle, and a drizzle of honey glaze right off the wok.</p>
++              <div class="meta">
++                <span>4.8 ★</span>
++                <span>12 min walk</span>
++                <span>$$ • Chinese</span>
++              </div>
++              <button class="cta" type="button">Book a table</button>
++            </div>
++          </div>
++          <aside class="side-actions" aria-label="Reel actions">
++            <button type="button">❤ <small>12.3k</small></button>
++            <button type="button">💬 <small>247</small></button>
++            <button type="button">↗ <small>Share</small></button>
++          </aside>
++        </section>
++
++        <section class="reel alt" aria-label="Restaurant reel: Ember Pizza">
++          <div class="media">
++            <div class="media-overlay">
++              <span class="live">Hot right now</span>
++              <h1>Ember Pizza • Truffle Mushroom Slice</h1>
++              <p>Wood-fired edges, melted burrata, and truffle aroma in every bite.</p>
++              <div class="meta">
++                <span>4.9 ★</span>
++                <span>8 min drive</span>
++                <span>$$$ • Italian</span>
++              </div>
++              <button class="cta" type="button">Reserve now</button>
++            </div>
++          </div>
++          <aside class="side-actions" aria-label="Reel actions">
++            <button type="button">❤ <small>9.1k</small></button>
++            <button type="button">💬 <small>184</small></button>
++            <button type="button">↗ <small>Share</small></button>
++          </aside>
++        </section>
++
++        <section class="reel luxe" aria-label="Restaurant reel: Solstice Sushi">
++          <div class="media">
++            <div class="media-overlay">
++              <span class="live">Chef spotlight</span>
++              <h1>Solstice Sushi • Omakase Night</h1>
++              <p>Fresh toro, hand-grated wasabi, and a 12-course chef experience.</p>
++              <div class="meta">
++                <span>5.0 ★</span>
++                <span>15 min drive</span>
++                <span>$$$$ • Japanese</span>
++              </div>
++              <button class="cta" type="button">Join waitlist</button>
++            </div>
++          </div>
++          <aside class="side-actions" aria-label="Reel actions">
++            <button type="button">❤ <small>6.8k</small></button>
++            <button type="button">💬 <small>96</small></button>
++            <button type="button">↗ <small>Share</small></button>
++          </aside>
++        </section>
++      </main>
++
++      <nav class="bottom-nav" aria-label="Primary">
++        <button class="active" type="button">Home</button>
++        <button type="button">Map</button>
++        <button class="primary" type="button" aria-label="Create">＋</button>
++        <button type="button">Saved</button>
++        <button type="button">Profile</button>
++      </nav>
++    </div>
++
++    <div class="modal" id="signupModal" aria-hidden="true">
++      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
++        <div class="modal-header">
++          <h2 id="signupTitle">Create your FoodScroll account</h2>
++          <button class="ghost" id="closeSignup" type="button">Close</button>
++        </div>
++
++        <form id="signupForm">
++          <label>
++            Name
++            <input type="text" name="name" placeholder="Alex Kim" required />
++          </label>
++          <label>
++            Email
++            <input type="email" name="email" placeholder="alex@email.com" required />
++          </label>
++          <label>
++            Zip code
++            <input type="text" name="zip" placeholder="94107" required />
++          </label>
++          <button class="cta full" type="submit">Create account</button>
++          <p class="fineprint">We store your account in this browser so you can jump back in later.</p>
++        </form>
++      </div>
++    </div>
++
++    <script>
++      const modal = document.getElementById("signupModal");
++      const openSignup = document.getElementById("openSignup");
++      const closeSignup = document.getElementById("closeSignup");
++      const form = document.getElementById("signupForm");
++      const status = document.getElementById("authStatus");
++
++      const accountsKey = "foodscroll_accounts";
++      const activeKey = "foodscroll_active";
++
 +      const loadAccounts = () => {
 +        try {
 +          return JSON.parse(localStorage.getItem(accountsKey) || "[]");
@@ -84,30 +267,62 @@
 +      };
 +
 +      const saveAccounts = (accounts) => {
-         localStorage.setItem(accountsKey, JSON.stringify(accounts));
++        localStorage.setItem(accountsKey, JSON.stringify(accounts));
 +      };
++
++      const setActiveAccount = (account) => {
++        localStorage.setItem(activeKey, JSON.stringify(account));
++        status.textContent = account.name;
++      };
++
++      const existing = localStorage.getItem(activeKey);
++      if (existing) {
++        try {
++          setActiveAccount(JSON.parse(existing));
++        } catch {
++          localStorage.removeItem(activeKey);
++        }
++      }
++
++      openSignup.addEventListener("click", () => {
++        modal.classList.add("open");
++        modal.setAttribute("aria-hidden", "false");
++      });
++
++      closeSignup.addEventListener("click", () => {
++        modal.classList.remove("open");
++        modal.setAttribute("aria-hidden", "true");
++      });
++
++      modal.addEventListener("click", (event) => {
++        if (event.target === modal) {
++          modal.classList.remove("open");
++          modal.setAttribute("aria-hidden", "true");
++        }
++      });
++
++      form.addEventListener("submit", (event) => {
++        event.preventDefault();
++        const data = new FormData(form);
++        const account = {
++          name: String(data.get("name") || "Foodie"),
++          email: String(data.get("email") || ""),
++          zip: String(data.get("zip") || ""),
++          createdAt: new Date().toISOString(),
++        };
++
++        const accounts = loadAccounts();
++        accounts.push(account);
++        saveAccounts(accounts);
++        setActiveAccount(account);
++
++        form.reset();
++        modal.classList.remove("open");
++        modal.setAttribute("aria-hidden", "true");
++      });
++    </script>
++  </body>
++</html>
  
-       const setActiveAccount = (account) => {
-         localStorage.setItem(activeKey, JSON.stringify(account));
-         status.textContent = account.name;
-       };
- 
-       const existing = localStorage.getItem(activeKey);
-       if (existing) {
-         setActiveAccount(JSON.parse(existing));
-       }
- 
-       openSignup.addEventListener("click", () => {
-         modal.classList.add("open");
-         modal.setAttribute("aria-hidden", "false");
-       });
- 
-       closeSignup.addEventListener("click", () => {
-         modal.classList.remove("open");
-         modal.setAttribute("aria-hidden", "true");
-       });
- 
-       form.addEventListener("submit", (event) => {
-         event.preventDefault();
-         const data = new FormData(form);
-         const account = {
+EOF
+)
